@@ -1,0 +1,27 @@
+<!doctype html>
+<html class="no-js" lang="">
+  <head>
+	<% if (baseHref) { %>
+		<base href="<%= baseHref %>" />
+	<% } %>
+
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title><%= config.title %></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+
+	<link rel="import" href="shell.html">
+	<link rel="import" href="bower_components/px-dark-theme/px-dark-theme-styles.html">
+    <link rel="import" href="elements/app-main/app-main-styles.html">
+    <style include="px-dark-theme-styles" is="custom-style"></style>
+    <style include="app-main-styles" is="custom-style"></style>
+
+  </head>
+  <body>
+    <div id="container"></div>
+    <script src="<%= bundle %>"></script>
+  </body>
+</html>

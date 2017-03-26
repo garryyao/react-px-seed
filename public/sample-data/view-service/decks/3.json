@@ -1,0 +1,27 @@
+{
+  "id": 3,
+  "title": "Detail View",
+  "slug": "detail-view",
+  "cardOrder": null,
+  "createTimeStamp": "2016-08-31T23:02:53.838Z",
+  "tags": [
+    {
+      "id": 3,
+      "value": "child-asset"
+    }
+  ],
+  "cards": [
+    {
+      "id": 4,
+      "title": "Time Series",
+      "slug": "time-series-card",
+      "attributes": {
+        "elementHref": "/elements/time-series-card/time-series-card.html",
+        "dataUrl": "/api/time-series/core-vibe/1"
+      },
+      "createTimeStamp": "2015-11-24T23:02:53.816Z",
+      "tags": [ ]
+    }
+  ],
+  "tag": "child-asset"
+}

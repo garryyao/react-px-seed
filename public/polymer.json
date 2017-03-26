@@ -1,0 +1,21 @@
+{
+  "entrypoint": "index.html",
+  "shell": "shell.html",
+  "fragments": [
+    "elements/app-layout-bundle.html",
+    "elements/dashboard-bundle.html",
+    "elements/time-series-bundle.html",
+    "elements/simple-asset-bundle.html",
+    "bower_components/px-card/px-card.html"
+  ],
+  "sources": [
+    "theme.html",
+    "elements/**/*.html",
+    "bower_components/px-*/*",
+    "bower_components/webcomponentsjs/*.js",
+    "bower_components/font-awesome/fonts/*",
+    "sample-data/*.json",
+    "*.png",
+    "*.xml"
+  ]
+}

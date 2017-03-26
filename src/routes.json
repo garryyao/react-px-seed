@@ -1,0 +1,22 @@
+[
+  {
+    "path": "/dashboard",
+    "page": "./dashboard",
+    "chunk": "main"
+  },
+  {
+    "path": "/winddata",
+    "page": "./wind-data",
+    "chunk": "main"
+  },
+  {
+    "path": "/simple-asset",
+    "page": "./simple-asset",
+    "chunk": "main"
+  },
+  {
+    "path": "/blankpage",
+    "page": "./blank-page",
+    "chunk": "main"
+  }
+]
