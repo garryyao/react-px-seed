@@ -3,7 +3,7 @@ applications:
   - name: react-px-seed
     memory: 64M
     buildpack: https://github.com/cloudfoundry/staticfile-buildpack.git
-    path: public
+    path: public/dist
 
 env:
     node_env: cloud
