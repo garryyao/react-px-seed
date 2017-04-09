@@ -80,7 +80,7 @@ class Layout extends React.Component {
         <div className="viewport">
           <div className="content-wrapper">
             <PxAppNav
-              pathPrefix="/"
+              pathPrefix="#/"
               navExpanded={this.state.navExpanded}
               navItems={this.props.navItems}
               onNavExpandedChanged={this.handleExpand.bind(this)} />
