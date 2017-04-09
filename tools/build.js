@@ -11,26 +11,28 @@
 /* eslint-disable no-console, global-require */
 
 const fs = require('fs');
+const path = require('path');
 const rimraf = require('rimraf');
+const mv = require('glob-move');
 const ejs = require('ejs');
 const webpack = require('webpack');
 const task = require('./task');
 const config = require('./config');
-const exec = require('child_process').exec;
+const spawn = require('child_process').spawn;
 
 // Copy ./index.html into the /public folder
 const html = task('html', () => {
   const webpackConfig = require('./webpack.config');
   const assets = JSON.parse(fs.readFileSync('./public/dist/assets.json', 'utf8'));
+  const bundlePath = path.relative('/dist', assets.main.js);
   const template = fs.readFileSync('./public/index.ejs', 'utf8');
   const render = ejs.compile(template, { filename: './public/index.ejs' });
   const output = render({
     debug: webpackConfig.debug,
-    baseHref: '/build/bundled/',
-    bundle: assets.main.js,
+    bundle: bundlePath,
     config
   });
-  fs.writeFileSync('./public/index.html', output, 'utf8');
+  fs.writeFileSync('./public/dist/index.html', output, 'utf8');
 });
 
 // Generate sitemap.xml
@@ -59,15 +61,17 @@ const bundle = task('bundle', () => {
   }).then(function() {
     // create Polymer HTML bundles according to "public/polymer.json"
     return new Promise((resolve, reject) => {
-      // clean build dir
-      rimraf.sync('public/build', {nosort: true, dot: true});
-      exec('../node_modules/.bin/polymer build', {cwd: 'public'}, (err, stdout) => {
-        if (err) {
-          reject(err);
+      const build = spawn('../node_modules/.bin/polymer', ['build'], {cwd: 'public'});
+      build.stdout.on('data', log => console.log(log.toString()));
+      build.stderr.on('data', err => console.error(err.toString()));
+      build.on('close', (code, stdout) => {
+        if (!code) {
+          mv('public/build/bundled/*', 'public/dist/').then(() => {
+            rimraf.sync('public/build', {nosort: true, dot: true});
+            resolve();
+          }, reject);
         }
-        console.log(stdout);
-        resolve();
-      });
+      })
     });
   });
 });

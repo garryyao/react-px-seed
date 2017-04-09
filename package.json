@@ -15,6 +15,7 @@
     "camel-2-dash": "^0.1.0",
     "classnames": "^2.2.5",
     "fastclick": "^1.0.6",
+    "glob-move": "^1.0.1",
     "history": "^4.6.1",
     "pascal-case": "^2.0.1",
     "polymer-cli": "^0.17.0",
