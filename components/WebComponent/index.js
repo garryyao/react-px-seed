@@ -70,7 +70,8 @@ function ReactWebComponent(CustomElement, opts, url) {
     constructor(props) {
       super(props);
       this.state = {
-        imported: false
+        imported: false,
+        mounted: false
       };
     }
 
@@ -79,53 +80,87 @@ function ReactWebComponent(CustomElement, opts, url) {
     }
 
     componentWillMount() {
-      const self = this;
-      function completed() {
-        self.setState({
-          imported: true
-        });
-      }
-
       if(!isElementDefined(tagName) ) {
-
         if(!('Polymer' in window)) {
           throw new Error('This component requires global Polymer library API availability.');
         }
-
         // Load the component async
-        Polymer.Base.importHref(url, completed, (er) => {
+        Polymer.Base.importHref(url, this.componentDidImport.bind(this), (er) => {
           throw new Error('Failed to import module:' + url);
         }, true);
       } else {
-        completed();
+        this.componentDidImport();
       }
     }
 
     componentDidMount() {
+      this.setState({
+        mounted: true
+      });
+
       // Import is already
       if(this.state.imported) {
         this.componentWillReceiveProps(this.props);
+        this.distributeChildren();
+      }
+    }
+
+    componentDidImport() {
+      if (this.state.mounted) {
+        this.setState({
+          imported: true
+        });
+        this.componentWillReceiveProps(this.props);
+      } else {
+        this.state.imported = true;
       }
     }
 
     componentDidUpdate(prevProps, prevState) {
       if(this.state.imported && !prevState.imported) {
         this.componentWillReceiveProps(prevProps);
+        this.distributeChildren();
       }
     }
 
     componentWillReceiveProps(props) {
       const node = ReactDOM.findDOMNode(this);
-      Object.keys(props).forEach(name => {
-        if (name === 'children' || name === 'style') {
-          return;
-        }
-        if (name.indexOf('on') === 0 && name[2] === name[2].toUpperCase()) {
-          syncEvent(node, name.substring(2), props[name]);
-        } else {
-          node[name] = props[name];
-        }
-      });
+      if(node) {
+        Object.keys(props).forEach(name => {
+          if (name === 'children' || name === 'style') {
+            return;
+          }
+          if (name.indexOf('on') === 0 && name[2] === name[2].toUpperCase()) {
+            syncEvent(node, name.substring(2), props[name]);
+          } else {
+            node[name] = props[name];
+          }
+        });
+      }
+    }
+
+    componentWillUnmount() {
+      this.state.mounted = false;
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+      if(!this.state.mounted && nextState.mounted)
+        return false;
+
+      return true;
+    }
+
+    distributeChildren() {
+      const node = ReactDOM.findDOMNode(this);
+      if(this.props.children && node) {
+        const shadowRoot = Polymer.dom(node.root);
+        const lightRoot = Polymer.dom(node);
+        Array.from(node.childNodes).filter(function(child) {
+          return !shadowRoot.deepContains(child);
+        }).forEach(function(newChild) {
+          lightRoot.appendChild(newChild);
+        });
+      }
     }
 
     render() {
