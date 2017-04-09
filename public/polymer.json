@@ -11,11 +11,10 @@
   "sources": [
     "theme.html",
     "elements/**/*.html",
-    "bower_components/px-*/*",
+    "bower_components/px-dark-theme/*.html",
     "bower_components/webcomponentsjs/*.js",
     "bower_components/font-awesome/fonts/*",
-    "sample-data/*.json",
-    "*.png",
-    "*.xml"
+    "sample-data/**/*.json",
+    "*"
   ]
 }
