@@ -3,10 +3,15 @@ import pascalCase from 'pascal-case';
 import camel2Dash from 'camel-2-dash';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import config from '../../tools/config';
+
 const defaults = {
   React,
   ReactDOM,
 };
+
+// default base path of web components, read from config
+const BASE_PATH = config.webComponentsBase.replace(/\/$/, '');
 
 function syncEvent(node, eventName, newEventHandler) {
   const eventNameLc = camel2Dash(eventName);
@@ -116,7 +121,11 @@ function ReactWebComponent(CustomElement, opts, url) {
   return ReactComponent;
 }
 
-export default function ReactPolymerComponent(element, baseHref='bower_components/'+element, opts) {
-  const url = `${baseHref}/${element}.html`;
+export default function ReactPolymerComponent(
+  element,
+  elementPath=`${BASE_PATH}/${element}`,
+  opts
+) {
+  const url = `${elementPath}/${element}.html`;
   return ReactWebComponent(element, opts, url);
 };
