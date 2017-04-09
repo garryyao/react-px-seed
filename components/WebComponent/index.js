@@ -30,12 +30,25 @@ function syncEvent(node, eventName, newEventHandler) {
   }
 }
 
+function isRegisteredInPolymer(elementName) {
+  const list = Polymer.telemetry.registrations;
+  // Mimics Array#find
+  for (let i = 0, element, length = list.length; element = list[i], i < length; i++) {
+    if (element.is === elementName) {
+      return true;
+    }
+  }
+  return false;
+}
+
 function isElementDefined(elementName) {
-  if(window.customElements.get(elementName)) {
+  // Custom Element v1 spec, works for Polymer 2.0
+  if('customElements' in window && window.customElements.get(elementName)) {
     return true;
   }
-  const constructor = document.createElement(elementName).constructor;
-  return constructor !== HTMLElement && constructor !== HTMLUnknownElement;
+
+  // Polymer 1.0 registration check
+  return isRegisteredInPolymer(elementName);
 }
 
 function ReactWebComponent(CustomElement, opts, url) {
@@ -74,6 +87,11 @@ function ReactWebComponent(CustomElement, opts, url) {
       }
 
       if(!isElementDefined(tagName) ) {
+
+        if(!('Polymer' in window)) {
+          throw new Error('This component requires global Polymer library API availability.');
+        }
+
         // Load the component async
         Polymer.Base.importHref(url, completed, (er) => {
           throw new Error('Failed to import module:' + url);
