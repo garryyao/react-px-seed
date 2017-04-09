@@ -53,7 +53,6 @@ export default class DashboardPage extends React.Component {
           <PxDeckSelector
               onSelectedDeckChanged={this._onDeckSelected.bind(this)}
               decks={this.state._decks}
-              ref={this._initDeckSelector.bind(this)}
             />
           </PxContextBrowser>
           {
@@ -80,17 +79,6 @@ export default class DashboardPage extends React.Component {
     this.setState({
       _selectedDeck: evt.detail.value
     });
-  }
-
-  // Re-distribute child contents
-  _initDeckSelector(comp) {
-    if(comp) {
-      const $el = ReactDOM.findDOMNode(comp);
-      const $parent = $el.parentNode;
-      if($parent.is === 'px-context-browser') {
-        $el.parentNode.querySelector('.content-wrapper').append($el);
-      }
-    }
   }
 
   _onAssetSelected(evt) {
