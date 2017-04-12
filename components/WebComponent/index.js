@@ -12,6 +12,19 @@ const defaults = {
 
 // default base path of web components, read from config
 const BASE_PATH = config.webComponentsBase.replace(/\/$/, '');
+const ATTR_BINDING = /\$$/;
+
+// Bind to an attribute
+function syncAttribute(node, name, val) {
+  const attrName = camel2Dash(name.replace(ATTR_BINDING, ''));
+  const type = typeof val;
+  if (type === 'object') {
+    val = JSON.stringify(val);
+  } else if (type === 'function') {
+    throw new Error(`Unexpected attribute "${attrName}" of type ${type}`);
+  }
+  node.setAttribute(attrName, val);
+}
 
 function syncEvent(node, eventName, newEventHandler) {
   const eventNameLc = camel2Dash(eventName);
@@ -130,9 +143,15 @@ function ReactWebComponent(CustomElement, opts, url) {
           if (name === 'children' || name === 'style') {
             return;
           }
-          if (name.indexOf('on') === 0 && name[2] === name[2].toUpperCase()) {
+
+          if(ATTR_BINDING.test(name)) {
+            // Bind to an attribute
+            syncAttribute(node, name, props[name]);
+          } else if (name.indexOf('on') === 0 && name[2] === name[2].toUpperCase()) {
+            // Add event listener
             syncEvent(node, name.substring(2), props[name]);
           } else {
+            // Bind to a property
             node[name] = props[name];
           }
         });
@@ -168,7 +187,9 @@ function ReactWebComponent(CustomElement, opts, url) {
         return null;
       }
 
-      return React.createElement(tagName, {style: this.props.style}, this.props.children);
+      return React.createElement(tagName, {
+        style: this.props.style
+      }, this.props.children);
     }
   }
   return ReactComponent;

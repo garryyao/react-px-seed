@@ -97,6 +97,8 @@ class TimeSeriesCard extends React.Component {
       return <PxSpinner size={50} className={s.spinner}/>;
     }
 
+    // The following components usage is primarily to illustrate attributes bindings
+    // while not necessarily to.
     return (
         <TimeseriesView>
           <PxCard icon="fa-calendar-o" headerText="Time Series Card">
@@ -105,22 +107,21 @@ class TimeSeriesCard extends React.Component {
                 onRangeChanged={this.handleRangeChange.bind(this)}
                 ref={this.initRangePicker.bind(this)}
                 hidePresets
-                date-format="YYYY/MM/DD"
-                time-format="hh:mm:ss A"
-                show-buttons="true"
+                dateFormat="YYYY/MM/DD"
+                timeFormat="hh:mm:ss A"
+                showButtons="true"
                 range={this.state.range}>
               </PxRangePicker>
-
               <PxVisTimeSeries
                 ref={(node) => { this.timeseries = ReactDOM.findDOMNode(node); }}
-                width={800}
-                height={300}
-                preventResize
-                enableTooltip
-                registerLocation
-                includeAllSeries
-                yAxisConfig={{"title": "Hz"}}
-                seriesConfig={{
+                width$={800}
+                height$={300}
+                preventResize$
+                enableTooltip$
+                registerLocation$
+                includeAllSeries$
+                yAxisConfig$={{"title": "Hz"}}
+                seriesConfig$={{
                   "cruise-vibration": {
                     "type": "line",
                     "x": "x",
@@ -128,9 +129,9 @@ class TimeSeriesCard extends React.Component {
                     "yAxisUnit": "Hz"
                   }
                 }}
-                selectionType="xy"
-                chartData={this.state.chartData}
-                range={this.state.range}>
+                selectionType$="xy"
+                chartData$={this.state.chartData}
+                range$={this.state.range}>
               </PxVisTimeSeries>
             </div>
           </PxCard>
