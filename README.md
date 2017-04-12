@@ -1,6 +1,6 @@
 # React Px Seed
 
-An React-Redux seed app match and mix with Predix UI Polymer web components.
+An React-Redux based Predix Seed App mix and match with Predix UI (Polymer) web components.
 
 ### Features
 - ✓ Polymer Web Component in form of high-order React Component, use props like native React Component.
@@ -11,6 +11,9 @@ An React-Redux seed app match and mix with Predix UI Polymer web components.
 - ✓ Work with Hot Module Replacement ([HMR](https://webpack.github.io/docs/hot-module-replacement.html)) /w [React Hot Loader](http://gaearon.github
 - ✓ Work with Polymer's tooling to create bundled/unbundled [HTML Imports](https://www.html5rocks.com/en/tutorials/webcomponents/imports/).
 - ▢ Support for Polymer/Web Component [lifecycle callbacks](https://www.polymer-project.org/1.0/docs/devguide/registering-elements#lifecycle-callbacks).
+
+### Examples
+Check the React components [source](components/TimeSeriesCard/index.js) for usage examples.
 
 ### Directory Layout
 
