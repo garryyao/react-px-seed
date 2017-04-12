@@ -3,14 +3,14 @@
 An React-Redux seed app match and mix with Predix UI Polymer web components.
 
 ### Features
-- ✓ First-class JSX web component just like other React Component.
-- ✓ Passing down props directly to the web component as properties instead of attributes, it's faster and safer, you'll rarely need passing attributes.
+- ✓ Polymer Web Component in form of high-order React Component, use props like native React Component.
+- ✓ Passing down props directly to the web component as properties instead of attributes, it's faster and safer, if you really need to pass attributes add a dollar sign ($) just like [in Polymer](https://www.polymer-project.org/1.0/docs/devguide/data-binding).
 - ✓ **Props in, events out**, use Polymer's [change notification](https://www.polymer-project.org/1.0/docs/devguide/data-system#custom-change-notification-events) events for up-ward data flow, fully respect React's unidirectional data-flow.
 - ✓ Support content distribution to web component via `this.props.children`.
 - ✓ Work with the standard [ref API](https://facebook.github.io/react/docs/more-about-refs.html) for accessing the rendered custom DOM element.
 - ✓ Work with Hot Module Replacement ([HMR](https://webpack.github.io/docs/hot-module-replacement.html)) /w [React Hot Loader](http://gaearon.github
 - ✓ Work with Polymer's tooling to create bundled/unbundled [HTML Imports](https://www.html5rocks.com/en/tutorials/webcomponents/imports/).
-- ▇ Support for Polymer/Web Component [lifecycle callbacks](https://www.polymer-project.org/1.0/docs/devguide/registering-elements#lifecycle-callbacks).
+- ▢ Support for Polymer/Web Component [lifecycle callbacks](https://www.polymer-project.org/1.0/docs/devguide/registering-elements#lifecycle-callbacks).
 
 ### Directory Layout
 
